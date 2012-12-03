@@ -18,10 +18,10 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 	var canvasPosition;
 	function init() {
 
-		world = new b2World(new b2Vec2(0, 20), true);
+		world = new b2World(new b2Vec2(0, 10), true);
 
 		fixDef = new b2FixtureDef;
-		fixDef.density = 1.0;
+		fixDef.density = 0.5;
 		fixDef.friction = 0.5;
 		fixDef.restitution = 0.2;
 
@@ -30,7 +30,9 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 		//create ground
 		bodyDef.type = b2Body.b2_staticBody;
 		fixDef.shape = new b2PolygonShape;
-		fixDef.shape.SetAsBox(($(document).width()-50) / 30, .2);
+		fixDef.shape.SetAsBox(($(document).width() - 50) / 30, .2);
+		bodyDef.position.Set(0, 0);
+		world.CreateBody(bodyDef).CreateFixture(fixDef);
 		bodyDef.position.Set(0, ($(document).height() - 50) / 30);
 		world.CreateBody(bodyDef).CreateFixture(fixDef);
 		fixDef.shape.SetAsBox(.2, ($(document).height() - 50) / 30);
@@ -129,7 +131,7 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 			ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
 			world.Step(1 / 60, 10, 10);
-			world.DrawDebugData();
+			//world.DrawDebugData();
 			world.ClearForces();
 
 			var node = world.GetBodyList();
@@ -139,14 +141,21 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 				if (b.m_userData) {
 					var position = b.GetPosition();
 					ctx.save();
-					ctx.font = "bold 20px sans-serif";
+					ctx.font = "bold 20px Text Me One";
 					ctx.fillStyle = "#111";
 					ctx.textAlign = 'center';
 					ctx.textBaseline = 'middle';
 					ctx.translate(position.x * 30, position.y * 30)
 					ctx.rotate(b.GetAngle());
-
-					ctx.fillText(b.m_userData, 0, 0);
+					ctx.beginPath();
+					ctx.rect(-b.m_userData.txt.length * 5.4, -24, 2 * b.m_userData.txt.length * 5.4, 48)
+					ctx.fillStyle = b.m_userData.color;
+					ctx.fill();
+					ctx.lineWidth = 1;
+					ctx.strokeStyle = '#fff';
+					ctx.stroke();
+					ctx.fillStyle = "#111";
+					ctx.fillText(b.m_userData.txt, 0, 0);
 					ctx.restore();
 				}
 				node = node.GetNext();
@@ -184,15 +193,46 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 	return {
 		init : function() {
 			init();
+			var text = "Envoyer un sms au 06 38 01 59 43"
+			bodyDef.type = b2Body.b2_dynamicBody;
+			fixDef.shape = new b2PolygonShape;
+			fixDef.shape.SetAsBox(text.length * .20, .8);
+			bodyDef.userData = {
+				txt : text,
+				color : 'eee'
+			};
+			bodyDef.position.x = 1 + Math.random() * $(document).width() / 29;
+			bodyDef.position.y = 1;
+			world.CreateBody(bodyDef).CreateFixture(fixDef);
 		},
 		add : function(text) {
+
+			function get_random_color() {
+				switch (Math.floor(Math.random() * 5)) {
+					case 0:
+						return '#00A5D1';
+					case 1:
+						return '#8FC15E';
+					case 2:
+						return '#F9D914';
+					case 3:
+						return '#F87606';
+					case 4:
+						return '#E30A29';
+				}
+			}
+
+
 			bodyDef.type = b2Body.b2_dynamicBody;
 
 			fixDef.shape = new b2PolygonShape;
-			fixDef.shape.SetAsBox(text.length * .18, .4);
-			bodyDef.userData = text;
+			fixDef.shape.SetAsBox(text.length * .18, .8);
+			bodyDef.userData = {
+				txt : text,
+				color : get_random_color()
+			};
 			bodyDef.position.x = 1 + Math.random() * $(document).width() / 29;
-			bodyDef.position.y = .1;
+			bodyDef.position.y = 1;
 			world.CreateBody(bodyDef).CreateFixture(fixDef);
 		}
 	}

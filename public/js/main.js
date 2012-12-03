@@ -11,7 +11,6 @@ require(["jquery", "socket.io"], function($) {
 				world2d.init();
 				var socket = io.connect();
 				socket.on('newtxt', function(data) {
-					console.log(data);
 					world2d.add(data.txt);
 				});
 			});
