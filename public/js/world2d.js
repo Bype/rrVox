@@ -31,12 +31,12 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 		bodyDef.type = b2Body.b2_staticBody;
 		fixDef.shape = new b2PolygonShape;
 		fixDef.shape.SetAsBox($(document).width() / 30, .2);
-		bodyDef.position.Set(0, ($(document).height() - 20) / 30);
+		bodyDef.position.Set(0, ($(document).height() - 50) / 30);
 		world.CreateBody(bodyDef).CreateFixture(fixDef);
-		fixDef.shape.SetAsBox(.2, ($(document).height() - 20) / 30);
+		fixDef.shape.SetAsBox(.2, ($(document).height() - 50) / 30);
 		bodyDef.position.Set(0, 0);
 		world.CreateBody(bodyDef).CreateFixture(fixDef);
-		bodyDef.position.Set($(document).width() / 30, 0);
+		bodyDef.position.Set(($(document).width() - 50) / 30, 0);
 		world.CreateBody(bodyDef).CreateFixture(fixDef);
 
 		//setup debug draw
