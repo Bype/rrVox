@@ -30,7 +30,7 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 		//create ground
 		bodyDef.type = b2Body.b2_staticBody;
 		fixDef.shape = new b2PolygonShape;
-		fixDef.shape.SetAsBox($(document).width() / 30, .2);
+		fixDef.shape.SetAsBox(($(document).width()-50) / 30, .2);
 		bodyDef.position.Set(0, ($(document).height() - 50) / 30);
 		world.CreateBody(bodyDef).CreateFixture(fixDef);
 		fixDef.shape.SetAsBox(.2, ($(document).height() - 50) / 30);
