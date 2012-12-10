@@ -7,7 +7,7 @@ var express = require('express'), routes = require('./routes'), user = require('
 var app = express();
 
 app.configure(function() {
-	app.set('port', process.env.PORT || 3000);
+	app.set('port', process.env.PORT || 5000);
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade');
 	app.use(express.favicon());
@@ -25,7 +25,7 @@ app.configure('development', function() {
 	app.use(express.errorHandler());
 });
 
-var server = http.createServer(app).listen(app.get('port'),process.env.LISTENADDR, function() {
+var server = http.createServer(app).listen(app.get('port'),process.env.LISTENADDR || '127.0.0.1', function() {
 	console.log("Express server listening on port " + app.get('port'));
 });
 
