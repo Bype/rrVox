@@ -1,6 +1,10 @@
+@import "reset.css";
+
+@import url(http://fonts.googleapis.com/css?family=Text+Me+One);
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 20px;
+  font: 14px "Text Me One", Helvetica, Arial, sans-serif;
+  background-image: url("/img/bg.png");
 }
 a {
   color: #00B7FF;
