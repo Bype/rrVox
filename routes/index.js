@@ -13,6 +13,7 @@ exports.index = function(req, res) {
 
 exports.admin = function(req, res) {
 	global.red.lrange('msg', -100, -1, function(err, data) {
+		data.reverse();
 		res.render('admin', {
 			title : 'Vox Populi',
 			msg : data
