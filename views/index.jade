@@ -1,5 +1,10 @@
 extends layout
 
-block content
+block header
+	link(rel='stylesheet', href='/css/style.css')
+	script(data-main="js/main",src="js/lib/require-jquery.js")
 	script(type='text/javascript')
-			var msg=!{JSON.stringify(msg)};
+		var msg=!{JSON.stringify(msg)};
+		
+block content
+	

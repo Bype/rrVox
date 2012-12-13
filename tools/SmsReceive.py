@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import urllib,httplib,sys,codecs
+import re 
 
 INBOX="/var/spool/gammu/inbox/"
 
@@ -12,7 +13,7 @@ f=codecs.open(INBOX+sys.argv[1],"r","utf-16")
 text = f.read()
 f.close()
 
-params = urllib.urlencode({'number':number,'txt':text.encode('utf-8')})
+params = urllib.urlencode({'number':re.search('\+.*\_',sys.argv[1]).group(0)[:-1],'txt':text.encode('utf-8')})
 headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
 conn = httplib.HTTPConnection("vox.bype.org")
 conn.request("POST", "/newTxt", params, headers)

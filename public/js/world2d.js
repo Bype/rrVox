@@ -18,7 +18,7 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 	var canvasPosition;
 	function init() {
 
-		world = new b2World(new b2Vec2(0, 10), true);
+		world = new b2World(new b2Vec2(0, 7), true);
 
 		fixDef = new b2FixtureDef;
 		fixDef.density = 0.5;

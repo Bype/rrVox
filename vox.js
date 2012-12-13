@@ -23,7 +23,7 @@ app.configure(function() {
 });
 
 app.configure('development', function() {
-	app.use(express.errorHandler());
+	app.use(express.errorHandler()); 
 });
 
 var server = http.createServer(app).listen(app.get('port'), process.env.LISTENADDR || '127.0.0.1', function() {
@@ -49,5 +49,7 @@ global.io.sockets.on('connection', function(socket) {
 });
 
 app.get('/', routes.index);
+app.get('/admin', routes.admin);
+app.get('/del', routes.del);
 app.post('/newTxt', user.newTxt);
 
