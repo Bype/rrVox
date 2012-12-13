@@ -26,7 +26,7 @@ app.configure('development', function() {
 	app.use(express.errorHandler()); 
 });
 
-var server = http.createServer(app).listen(app.get('port'), process.env.LISTENADDR || '127.0.0.1', function() {
+var server = http.createServer(app).listen(app.get('port'), '127.0.0.1', function() {
 	console.log("Express server listening on port " + app.get('port'));
 });
 
