@@ -16,7 +16,8 @@ exports.newTxt = function(req, res) {
 		});
 	});
 	if (passed) {
-		global.red.rpush('msg', req.body.txt);
+		req.body.txt = req.body.txt.slice(1, 50)
+		global.red.rpush('msg', req.body.txt.slice(1, 50));
 		global.io.sockets.emit('newtxt', req.body);
 	}
 	res.json(req.body);

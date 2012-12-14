@@ -135,16 +135,15 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 			world.ClearForces();
 
 			var node = world.GetBodyList();
-
+			ctx.font = "bold 20px Text Me One";
+			ctx.fillStyle = "#111";
+			ctx.textAlign = 'center';
+			ctx.textBaseline = 'middle';
 			while (node) {
 				var b = node;
 				if (b.m_userData) {
 					var position = b.GetPosition();
 					ctx.save();
-					ctx.font = "bold 20px Text Me One";
-					ctx.fillStyle = "#111";
-					ctx.textAlign = 'center';
-					ctx.textBaseline = 'middle';
 					ctx.translate(position.x * 30, position.y * 30)
 					ctx.rotate(b.GetAngle());
 					ctx.beginPath();
@@ -193,7 +192,7 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 	return {
 		init : function() {
 			init();
-			var text = "Envoyer un sms au 06 38 01 59 43"
+			var text = "Envoyer un sms (max 50 lettres) au 06 38 01 59 43"
 			bodyDef.type = b2Body.b2_dynamicBody;
 			fixDef.shape = new b2PolygonShape;
 			fixDef.shape.SetAsBox(text.length * .20, .8);
