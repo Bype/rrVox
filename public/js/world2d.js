@@ -42,6 +42,7 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 		world.CreateBody(bodyDef).CreateFixture(fixDef);
 
 		//setup debug draw
+
 		var debugDraw = new b2DebugDraw();
 		debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
 		debugDraw.SetDrawScale(30.0);
@@ -50,7 +51,12 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 		debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
 		world.SetDebugDraw(debugDraw);
 
-		window.setInterval(update, 1000 / 60);
+		window.requestAnimFrame = (function() {
+			return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+			function(callback) {
+				window.setTimeout(callback, 1000 / 60);
+			};
+		})();
 
 		//mouse
 
@@ -99,6 +105,11 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 
 		//update
 
+		(function animloop() {
+			requestAnimFrame(animloop);
+			update();
+		})();
+
 		function update() {
 
 			if (isMouseDown && (!mouseJoint)) {
@@ -123,42 +134,31 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 					mouseJoint = null;
 				}
 			}
+			/*
+			 var ctx = document.getElementById("canvas").getContext("2d");
+			 var canvasWidth = ctx.canvas.width;
+			 var canvasHeight = ctx.canvas.height;
 
-			var ctx = document.getElementById("canvas").getContext("2d");
-			var canvasWidth = ctx.canvas.width;
-			var canvasHeight = ctx.canvas.height;
-
-			ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
+			 //ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+			 */
 			world.Step(1 / 60, 10, 10);
 			//world.DrawDebugData();
 			world.ClearForces();
 
 			var node = world.GetBodyList();
-			ctx.font = "bold 20px Text Me One";
-			ctx.fillStyle = "#111";
-			ctx.textAlign = 'center';
-			ctx.textBaseline = 'middle';
 			while (node) {
 				var b = node;
 				if (b.m_userData) {
 					var position = b.GetPosition();
-					ctx.save();
-					ctx.translate(position.x * 30, position.y * 30)
-					ctx.rotate(b.GetAngle());
-					ctx.beginPath();
-					ctx.rect(-b.m_userData.txt.length * 5.4, -24, 2 * b.m_userData.txt.length * 5.4, 48)
-					ctx.fillStyle = b.m_userData.color;
-					ctx.fill();
-					ctx.lineWidth = 1;
-					ctx.strokeStyle = '#fff';
-					ctx.stroke();
-					ctx.fillStyle = "#111";
-					ctx.fillText(b.m_userData.txt, 0, 0);
-					ctx.restore();
+					b.m_userData.elt.css({
+						left : position.x * 30 - (b.m_userData.elt.width() >> 1),
+						top : position.y * 30 - (b.m_userData.elt.height() >> 1),
+						transform : 'rotate(' + b.GetAngle() + 'rad) translateZ(0)'
+					})
 				}
 				node = node.GetNext();
 			}
+
 		};
 
 		//helpers
@@ -192,47 +192,32 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
 	return {
 		init : function() {
 			init();
-			var text = "Envoyer un sms (max 50 lettres) au 06 38 01 59 43"
-			bodyDef.type = b2Body.b2_dynamicBody;
-			fixDef.shape = new b2PolygonShape;
-			fixDef.shape.SetAsBox(text.length * .20, .8);
-			bodyDef.userData = {
-				txt : text,
-				color : 'eee'
-			};
-			bodyDef.position.x = 1 + Math.random() * $(document).width() / 29;
-			bodyDef.position.y = 1;
-			world.CreateBody(bodyDef).CreateFixture(fixDef);
 		},
-		add : function(text) {
-
-			function get_random_color() {
-				switch (Math.floor(Math.random() * 5)) {
-					case 0:
-						return '#00A5D1';
-					case 1:
-						return '#8FC15E';
-					case 2:
-						return '#F9D914';
-					case 3:
-						return '#F87606';
-					case 4:
-						return '#E30A29';
-				}
-			}
-
+		add : function(text, c) {
 
 			bodyDef.type = b2Body.b2_dynamicBody;
 
 			fixDef.shape = new b2PolygonShape;
-			fixDef.shape.SetAsBox(text.length * .18, .8);
-			bodyDef.userData = {
-				txt : text,
-				color : get_random_color()
-			};
-			bodyDef.position.x = 1 + Math.random() * $(document).width() / 29;
+			var elt = $(document.createElement("div")).addClass("badge").text(text).appendTo($('body'));
+			if (c)
+				elt.addClass("cc")
+			else
+				elt.addClass("c" + Math.floor(Math.random() * 5))
+			fixDef.shape.SetAsBox((elt.width() + 32) / 60, (elt.height() + 32) / 60);
+			bodyDef.position.x = 15 + Math.random() * $(document).width() / 60;
 			bodyDef.position.y = 1;
+			elt.css({
+				left : bodyDef.position.x * 30 - elt.width() / 2,
+				top : bodyDef.position.x * 30 - elt.height() / 2,
+				width : elt.width(),
+				height : elt.height()
+
+			})
+			bodyDef.userData = {
+				elt : elt
+			};
 			world.CreateBody(bodyDef).CreateFixture(fixDef);
+			elt.fadeIn();
 		}
 	}
 });
