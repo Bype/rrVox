@@ -2,7 +2,7 @@ var eyes = require('eyes'), haibu = require('haibu');
 
 // Create a new client for communicating with the haibu server
 var client = new haibu.drone.Client({
-	host : 'localhost',
+	host : 'http.bype.org',
 	port : 9002
 });
 
