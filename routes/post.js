@@ -21,6 +21,6 @@ exports.newTxt = function(req, res) {
 		global.red.rpush('msg', req.body.txt.slice(0, 50));
 		global.io.sockets.emit('newtxt', req.body);
 	}
-	res.header('Access-Control-Allow-Origin','*');
+	res.header('Access-Control-Allow-Origin','http://admin.bype.org');
 	res.json(req.body);
 };
