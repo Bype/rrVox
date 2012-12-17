@@ -49,7 +49,5 @@ global.io.sockets.on('connection', function(socket) {
 });
 
 app.get('/', routes.index);
-app.get('/admin', routes.admin);
-app.get('/del', routes.del);
 app.post('/newTxt', user.newTxt);
 
