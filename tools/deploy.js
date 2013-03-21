@@ -13,7 +13,7 @@ var app = {
 	"domain" : "bype.org",
 	"repository" : {
 		"type" : "git",
-		"url" : "git://github.com/davidonet/rrVox.git",
+		"url" : "git://github.com/Bype/rrVox.git",
 	},
 	"scripts" : {
 		"start" : "vox.js"
