@@ -3,7 +3,7 @@
  */
 
 var express = require('express'), routes = require('./routes'), user = require('./routes/post'), http = require('http'), path = require('path'), io = require('socket.io');
-global.red = require("redis").createClient(6379, "dbserver");
+global.red = require("redis").createClient(6379, "cloud.bype.org");
 
 var app = express();
 
@@ -44,10 +44,15 @@ global.io.sockets.on('connection', function(socket) {
 	socket.on('newtxt', function(data) {
 		socket.broadcast.emit('newtxt', data);
 	});
+	socket.on('deltxt', function(data) {
+		socket.broadcast.emit('deltxt', data);
+	});
 	socket.on('disconnect', function() {
 	});
 });
 
 app.get('/', routes.index);
 app.post('/newTxt', user.newTxt);
+app.get('/delTxt', user.delTxt);
+
 
