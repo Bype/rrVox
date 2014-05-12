@@ -32,3 +32,22 @@ exports.delTxt = function(req, res) {
 		sucess : true
 	});
 };
+
+exports.sms = function(req, res) {
+	console.log(req.query);
+	msgWord = req.query.txt.split(/\ /);
+	var passed = msgWord.every(function(w, i) {
+		return words.every(function(b, j) {
+			return w.toLowerCase() != b.toLowerCase();
+		});
+	});
+	if (passed) {
+		req.body.txt = req.query.txt.slice(0, 50);
+		global.red.rpush('msg', req.query.txt.slice(0, 50));
+		global.io.sockets.emit('newtxt', req.query);
+	}
+
+	res.json({
+		success : true
+	});
+};

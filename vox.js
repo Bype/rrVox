@@ -3,7 +3,7 @@
  */
 
 var express = require('express'), routes = require('./routes'), user = require('./routes/post'), http = require('http'), path = require('path'), io = require('socket.io');
-global.red = require("redis").createClient(6379, "cloud.bype.org");
+global.red = require("redis").createClient(6379, "localhost");
 
 var app = express();
 
@@ -54,5 +54,4 @@ global.io.sockets.on('connection', function(socket) {
 app.get('/', routes.index);
 app.post('/newTxt', user.newTxt);
 app.get('/delTxt', user.delTxt);
-
-
+app.get('/sms', user.sms);
