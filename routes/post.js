@@ -34,7 +34,6 @@ exports.delTxt = function(req, res) {
 };
 
 exports.sms = function(req, res) {
-	console.log(req.query);
 	msgWord = req.query.txt.split(/\ /);
 	var passed = msgWord.every(function(w, i) {
 		return words.every(function(b, j) {
@@ -51,3 +50,23 @@ exports.sms = function(req, res) {
 		success : true
 	});
 };
+
+
+exports.newSms =  function(req, res){
+	if(req.query.text){
+	var msg = req.query.text;
+	var msgWord = msg.split(/\ /);
+        var passed = msgWord.every(function(w, i) {
+                return words.every(function(b, j) {
+                        return w.toLowerCase() != b.toLowerCase();
+                });
+        });
+        if (passed) {
+                req.body.txt = msg;
+                global.red.rpush('msg', req.body);
+                global.io.sockets.emit('newtxt', req.body);
+        }
+	}
+   res.status(200).end();
+};
+

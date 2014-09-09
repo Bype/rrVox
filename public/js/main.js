@@ -10,7 +10,7 @@ require(["jquery", "socket.io"], function($) {
 				$(document.createElement("canvas")).attr("id", "canvas").attr("width", $(document).width() - 50).attr("height", $(document).height() - 50).appendTo($('body'));
 				world2d.init();
 				setTimeout(function() {
-					world2d.add("Envoyer un sms au 06 38 01 59 43", true)
+					world2d.add("Envoyer un sms au 06 44 63 02 04", true)
 				}, 5000);
 				var socket = io.connect();
 				socket.on('newtxt', function(data) {

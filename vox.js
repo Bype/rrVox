@@ -55,3 +55,6 @@ app.get('/', routes.index);
 app.post('/newTxt', user.newTxt);
 app.get('/delTxt', user.delTxt);
 app.get('/sms', user.sms);
+app.post('/newSms', user.newSms);
+app.get('/newSms', user.newSms);
+
