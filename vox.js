@@ -57,4 +57,4 @@ app.get('/delTxt', user.delTxt);
 app.get('/sms', user.sms);
 app.post('/newSms', user.newSms);
 app.get('/newSms', user.newSms);
-
+app.get('/status',user.status);
