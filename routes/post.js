@@ -53,6 +53,7 @@ exports.sms = function(req, res) {
 
 
 exports.newSms =  function(req, res){
+	console.log(req.query.text);		
 	if(req.query.text){
 	var msg = req.query.text;
 	var msgWord = msg.split(/\ /);
@@ -62,11 +63,15 @@ exports.newSms =  function(req, res){
                 });
         });
         if (passed) {
-                req.body.txt = msg;
-                global.red.rpush('msg', req.body);
+                req.body.txt = msg.slice(0, 50);
+                global.red.rpush('msg', req.body.txt);
                 global.io.sockets.emit('newtxt', req.body);
         }
 	}
    res.status(200).end();
+};
+
+exports.status = function(req, res){
+	res.status(200).end();
 };
 
