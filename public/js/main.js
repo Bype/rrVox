@@ -3,7 +3,7 @@ requirejs.config({
 		'socket.io' : '/socket.io/socket.io'
 	}
 });
-require(["jquery", "socket.io"], function($) {
+require(["jquery", "socket.io"], function($,io) {
 	$(function() {
 		$(document).ready(function() {
 			require(["world2d"], function(world2d) {
