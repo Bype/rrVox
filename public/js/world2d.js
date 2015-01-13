@@ -252,7 +252,7 @@ define(["lib/Box2dWeb-2.1.a.3"], function() {
             elt.css({
                 left: bodyDef.position.x * 30 - elt.width() / 2,
                 top: bodyDef.position.x * 30 - elt.height() / 2,
-                width: elt.width(),
+                width: elt.width()*1.1,
                 height: elt.height()
 
             })
